@@ -1,0 +1,106 @@
+[advice]
+
+	statusHints = false
+	detachedHead = false
+	addEmptyPathspec = false
+	pushUpdateRejected = false
+
+[apply]
+
+	whitespace = warn
+
+[color "branch"]
+
+	current = bold
+	local = green
+	remote = cyan
+
+[color "diff"]
+
+	meta = yellow bold
+	frag = magenta
+	old = red
+	new = green
+
+[color "status"]
+
+	added = green
+	branch = green
+	changed = yellow
+	header = white dim
+	untracked = cyan
+
+[color "blame"]
+
+	repeatedLines = gray
+
+[core]
+
+	editor = code --wait
+	precomposeunicode = false
+	trustctime = false
+	precomposeUnicode = true
+
+[credential]
+
+	helper = cache
+
+[diff]
+
+	renames = copies
+	tool = vscode
+
+[diff "bin"]
+
+	textconv = hexdump -v -C
+
+[difftool "vscode"]
+	
+	cmd = code --wait --diff $LOCAL $REMOTE
+
+[help]
+
+	autocorrect = 10
+
+[merge]
+	
+	tool = vscode
+
+[mergetool "vscode"]
+	
+	cmd = code --wait $MERGED
+	log = true
+
+[push]
+
+	followTags = true
+
+[rebase]
+
+	autoStash = true
+	autoSquash = true
+
+[user]
+
+	author = GIT_AUTHOR
+	email = GIT_EMAIL
+
+[url "git@github.com:"]
+
+	insteadOf = "gh:"
+	pushInsteadOf = "github:"
+	pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+
+	insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+
+	insteadOf = "gst:"
+	pushInsteadOf = "gist:"
+	pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+
+	insteadOf = "gist:"
