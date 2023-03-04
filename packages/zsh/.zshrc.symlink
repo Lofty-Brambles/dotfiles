@@ -18,7 +18,7 @@ if [[ -e "~/.localrc" ]]; then
 	source ~/.localrc
 fi
 
-plugins=(nvm thefuck zoxide)
+plugins=(nvm thefuck zoxide pnpm-shell-completion)
 
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
