@@ -13,15 +13,29 @@ ZSH_CUSTOM="$HOME/dotfiles/packages/zsh/custom"
 # Setting the slightly modified theme
 ZSH_THEME="modif"
 
+# Geo-positive history stamps LOL
+HIST_STAMPS="yyyy-mm-dd"
+
 # Stash your environment variables in ~/.localrc
 if [[ -e "~/.localrc" ]]; then
 	source ~/.localrc
 fi
 
-plugins=(nvm thefuck zoxide pnpm-shell-completion)
+plugins=(nvm zoxide pnpm-shell-completion)
 
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
+
+# Some small custom configs for external commands
+alias bat="\bat --theme=Github"
+alias ls=""
+mc () {
+	mkdir -p "$*" && cd "$*"
+}
+
+# Sets up bat for pages
+export PAGER="bat"
+export MANPAGER="less"
 
 # Load all the zsh files
 for file in $(find -H packages -name "*.zsh" -not -name "*install.zsh" -not -name "*completion.zsh"); do
