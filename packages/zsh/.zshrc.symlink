@@ -21,14 +21,16 @@ if [[ -e "~/.localrc" ]]; then
 	source ~/.localrc
 fi
 
-plugins=(nvm zoxide pnpm-shell-completion)
+# Load zoxide from local bin ( find out why tf local bin is not in paths already )
+export PATH="$HOME/.local/bin:$PATH"
+
+plugins=(zsh-nvm zoxide)
 
 # Load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 # Some small custom configs for external commands
 alias bat="\bat --theme=Github"
-alias ls=""
 mc () {
 	mkdir -p "$*" && cd "$*"
 }

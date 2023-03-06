@@ -1,6 +1,6 @@
 # ----- ----- / Rules ----- -----
 # » Forced version: Capitals
-# » Pattern accepting version: command*
+# » Pattern accepting version: command!
 # » Marking a private function _functun
 # ----- ----- Rules / ----- -----
 
@@ -27,16 +27,16 @@ alias gav="git add --verbose"
 alias gb="git branch --all"
 alias gbd="git branch --delete"
 alias gbD="git branch --delete --force"
-gbd* () {
+gbd! () {
 	local name = $(git branch --verbose | awk '"'"'{print $1}'"'"' | grep $1)
 	[[ $name ]] && echo $name | xargs git branch --delete
 }
-gbD* () {
+gbD! () {
 	local name = $(git branch --verbose | awk '"'"'{print $1}'"'"' | grep $1)
 	[[ $name ]] && echo $name | xargs git branch --delete --force
 }
-compdef _git gbd*=git-branch
-compdef _git gbD*=git-branch
+compdef _git gbd!=git-branch
+compdef _git gbD!=git-branch
 grename () {
 	if [[ -z "$1" || -z "$2" ]]; then
 		echo "Usage: $0 old_branch new_branch"
