@@ -48,8 +48,12 @@ symlink () {
 	dst=$2
 
 	if [[ -L $dst ]]; then
-		log "Removing broken symlink at $dst"
-		rm "$dst"
+		if ! [[ -e $dst ]]; then
+			log "Removing broken symlink at $dst"
+			rm "$dst"
+		else
+			return 0
+		fi
 	else
 		backup="$dst.old.1"
 		while [[ -e $backup ]]; do
@@ -83,7 +87,7 @@ if [[ $set_git =~ (yes|y|Y) ]]; then
 	result "GIT credentials were set successfully"
 fi
 
-if [[ -n $(zsh --version) ]]; then 
+if ! [[ $(zsh --version) ]]; then 
 	newline
 	log "Installing zsh!"
 	eval "$install_zsh"
@@ -110,15 +114,6 @@ find "$(pwd -P)/bin" -print0 | while IFS= read -r -d "" file; do
 		symlink "$file" "/bin/$filename"
 	fi
 done
-
-newline
-read -r -p "$(re "Do you want run the installers? [y|n]")" set_git
-if [[ $set_git =~ (yes|y|Y) ]]; then
-	find "$(pwd -P)/packages" -name "*install.zsh" -print0 | while IFS= read -r -d "" file; do
-		# shellcheck source=/dev/null
-		if [[ -f $file ]]; then source "$file"; fi
-	done
-fi
 
 newline
 log "Symlinking the .symlink files!"

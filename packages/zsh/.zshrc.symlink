@@ -21,8 +21,8 @@ if [[ -e "~/.localrc" ]]; then
 	source ~/.localrc
 fi
 
-# Load zoxide from local bin ( find out why tf local bin is not in paths already )
-export PATH="$HOME/.local/bin:$PATH"
+# Load some path variables
+export PATH="$HOME/.local/bin:$HOME/.rbenv/bin:$PATH"
 
 plugins=(zsh-nvm zoxide)
 
@@ -43,6 +43,9 @@ export MANPAGER="less"
 for file in $(find -H packages -name "*.zsh" -not -name "*install.zsh" -not -name "*completion.zsh"); do
 	source $file
 done
+
+# Set up rbenv
+eval "$(rbenv init -)"
 
 # Load all the autocompletions
 for file in $(find -H packages -name "*completion.zsh"); do
