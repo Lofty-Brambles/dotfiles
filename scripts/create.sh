@@ -83,7 +83,7 @@ if [[ $set_git =~ (yes|y|Y) ]]; then
 	read -r -p "$(re "What is your GIT author name?")" git_author
 	read -r -p "$(re "What is your GIT author email?")" git_email
 
-	sed -e "s/GIT_AUTHOR/$git_author/g" -e "s/GIT_EMAIL/$git_email/g" "git/.gitconfig.symlink" 
+	sed -e "s/GIT_AUTHOR/$git_author/g" -e "s/GIT_EMAIL/$git_email/g" "packages/git/.gitconfig.symlink"
 	result "GIT credentials were set successfully"
 fi
 

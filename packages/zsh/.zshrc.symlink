@@ -31,6 +31,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Some small custom configs for external commands
 alias bat="\bat --theme=Github"
+alias cd="z"
 mc () {
 	mkdir -p "$*" && cd "$*"
 }
@@ -40,7 +41,7 @@ export PAGER="bat"
 export MANPAGER="less"
 
 # Load all the zsh files
-for file in $(find -H packages -name "*.zsh" -not -name "*install.zsh" -not -name "*completion.zsh"); do
+for file in $(find "$HOME/dotfiles/packages" -name "*.zsh" -not -name "*install.zsh" -not -name "*completion.zsh"); do
 	source $file
 done
 
@@ -48,6 +49,6 @@ done
 eval "$(rbenv init -)"
 
 # Load all the autocompletions
-for file in $(find -H packages -name "*completion.zsh"); do
+for file in $(find "$HOME/dotfiles/packages" -name "*completion.zsh"); do
 	source $file
 done

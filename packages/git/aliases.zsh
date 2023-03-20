@@ -51,6 +51,7 @@ grename () {
 
 alias gch="git checkout"
 alias gcb="git checkout -b"
+alias gb+="git checkout -b"
 
 alias gc="git commit --message"
 alias gcv="git commit --verbose"
@@ -113,8 +114,21 @@ compdef _git gpl=git-checkout
 compdef _git gplu=git-checkout
 compdef _git gpL=git-checkout
 
-gig () {
+gt () {
+	gaa && gc "$1"
+}
 
+gT () {
+	gaa && gc "$1" && gps
+}
+
+gig () {
+	local IFS=,
+	curl -sL "https://www.toptal.com/developers/gitignore/api/$*" -o "$(pwd -P)/.gitignore"
+}
+
+gigl () {
+	curl -sL "https://www.toptal.com/developers/gitignore/api/list"
 }
 
 alias gl="log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
