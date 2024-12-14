@@ -1,0 +1,62 @@
+# --- ** Load bash details asynchronously ** ---
+
+export PATH="$HOME/bin:$PATH";
+
+for file in ~/.{bash_prompt,exports,aliases,functions}; do
+	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
+# --- ** Default bash configuration ** ---
+
+HISTCONTROL=ignoreboth
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+shopt -s histappend
+shopt -s checkwinsize
+shopt -s cdspell;
+
+# Make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# Enable some Bash 4 features when possible:
+# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
+# * Recursive globbing, e.g. `echo **/*.txt`
+for option in autocd globstar; do
+	shopt -s "$option" 2> /dev/null;
+done;
+
+# Set variable identifying the chroot you work in
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# Enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# Enable tab completion for `g` by marking it as an alias for `git`
+if type _git &> /dev/null; then
+	complete -o default -o nospace -F _git g;
+fi;
+
+# --- ** Tool specific configuration ** ---
+
+[ -f "/home/prantik/.ghcup/env" ] && . "/home/prantik/.ghcup/env" # ghcup-env
+
+. "$HOME/.asdf/asdf.sh" # asdf runner
+. "$HOME/.asdf/completions/asdf.bash" # asdf completions
+
+export PNPM_HOME="/home/prantik/.local/share/pnpm" # declare pnpm home-dir
+case ":$PATH:" in
+-  *":$PNPM_HOME:"*) ;;
+-  *) export PATH="$PNPM_HOME:$PATH" ;;
+-esac # add pnpm to path
