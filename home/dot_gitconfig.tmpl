@@ -1,0 +1,107 @@
+[user]
+
+	name = {{ .gitName }}
+	email = {{ .gitEmail | quote }}
+
+[core]
+
+	editor = {{ .gitEditor }}
+	eol = lf
+
+[advice]
+
+	statusHints = false
+	detachedHead = false
+	addEmptyPathspec = false
+	pushUpdateRejected = false
+
+[init]
+
+	defaultBranch = main
+
+[apply]
+
+	whitespace = warn
+
+[credential]
+
+	helper = cache --timeout=3600
+
+[diff]
+
+	mnemonicprefix = true
+	renames = copies
+	tool = vscode
+	indentHeuristic = true
+
+[difftool "vscode"]
+	
+	cmd = code --wait --diff $LOCAL $REMOTE
+
+[help]
+
+	autocorrect = 20
+
+[merge]
+
+	conflictStyle = diff3
+	tool = vscode
+	log = true
+
+[mergetool "vscode"]
+
+	cmd = code --wait $MERGED
+
+[pull]
+
+	rebase = true
+
+[rebase]
+
+	autoStash = true
+	autoSquash = true
+
+[color "branch"]
+
+	current = bold
+	local = white
+	remote = green
+
+[color "diff"]
+
+	meta = yellow bold
+	frag = magenta
+	old = red
+	new = green
+
+[color "status"]
+
+	added = green
+	branch = green bold
+	changed = cyan
+	header = yellow bold
+	untracked = red
+
+[color "blame"]
+
+	repeatedLines = gray
+
+[url "git@github.com:"]
+
+	insteadOf = "gh:"
+	pushInsteadOf = "github:"
+	pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+
+	insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+
+	insteadOf = "gst:"
+	pushInsteadOf = "gist:"
+	pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+
+	insteadOf = "gist:"

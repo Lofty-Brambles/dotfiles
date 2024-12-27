@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+# --- ** Common naming norms (sanity check) ** ---
+# - *    indicates interactivity
+# - !    indicates forced flags or destructive actions
+# - _    indicates a private item
+
+alias g="git"
+__git_complete g __git_main
+
+alias ga="git add"
+alias 'ga*'="git add --interactive"
+alias gaa="git add --all"
+_g_complete ga git_add ga* git_add gaa git_add
+
+# shellcheck disable=SC2154
+alias gc='_lc=$(fc -nl -0); git commit -m "${_lc#*gc }" #'
+alias gcv="git commit --verbose"
+alias gca="git commit --amend"
+_g_complete gcv git_commit gca git_commit
+
+alias gt='gaa; _lc=$(fc -nl -0); git commit -m "${_lc#*gt }" #'
+alias gT='gaa; _lc=$(fc -nl -0); git commit -m "${_lc#*gt }"; gps #'
+
+alias gf="git fetch"
+alias gfa="git fetch --all --prune --jobs=10"
+__git_complete gf git_fetch
+
+alias gch="git checkout"
+alias gb="git branch"
+alias gb+="git checkout -b"
+alias gbd="git branch --delete"
+_g_complete gch git_checkout gb git_branch gb+ git_branch gbd git_branch
+
+alias gl="git log -n 25 --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --abbrev-commit"
+alias gltree="git log -n 25 --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --graph --date=short --abbrev-commit"
+
+alias gr+="git remote add origin"
+
+alias gcontributors="git shortlog --summary --numbered"
+
+# add stash stuff?
+
+alias p="pnpm"
+
+# needs autocompletion, find out how to add via zsh plugin's compdef, specifically packages
+alias pa="pnpm add"
+alias pad="pnpm add --save-dev"
+alias pi="pnpm install"
+alias prm="pnpm remove"
+alias pup="pnpm update"
+alias px="pnpx"
+
+alias ..="cd .."
+alias ...="cd ../.."
+
+alias l="eza -hl --no-user --icons --group-directories-first --time-style=long-iso"
+alias ll="eza -hla --no-user --icons --group-directories-first --time-style=long-iso"
+alias ltree="eza --group-directories-first --tree"
+
+alias reload='exec ${SHELL} -l'
+alias path='echo -e ${PATH//:/\\n}'

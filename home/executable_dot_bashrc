@@ -1,11 +1,7 @@
-# --- ** Load bash details asynchronously ** ---
+#!/usr/bin/env bash
 
-export PATH="$HOME/bin:$PATH";
-
-for file in ~/.{bash_prompt,exports,aliases,functions}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
-done;
-unset file;
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
 
 # --- ** Default bash configuration ** ---
 
@@ -36,27 +32,40 @@ fi
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
+  if [ -f "/usr/share/bash-completion/bash_completion" ]; then
+    . "/usr/share/bash-completion/bash_completion"
+    . "/usr/share/bash-completion/completions/git"
   elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+    . "/etc/bash_completion"
   fi
 fi
 
-# Enable tab completion for `g` by marking it as an alias for `git`
-if type _git &> /dev/null; then
-	complete -o default -o nospace -F _git g;
-fi;
+# --- ** Load bash details asynchronously ** ---
+
+export PATH="$HOME/bin:$PATH";
+
+for file in ~/.{bash_prompt,functions,exports,aliases}; do
+	# shellcheck disable=SC1090
+	[ -r "$file" ] && [ -f "$file" ] && . "$file";
+done;
+unset file;
 
 # --- ** Tool specific configuration ** ---
 
-[ -f "/home/prantik/.ghcup/env" ] && . "/home/prantik/.ghcup/env" # ghcup-env
+[ -f "$HOME/.fzf.bash" ] && . "$HOME/.fzf.bash" # Load fzf integration
+
+. "$HOME/.fzf-git.sh" # Fzf git-integration
+. "$HOME/.z.sh" # z integration, combined with fzf
+
+unalias z 2> /dev/null # unalias z integration to use preferred fzf instead
+
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
 
 . "$HOME/.asdf/asdf.sh" # asdf runner
 . "$HOME/.asdf/completions/asdf.bash" # asdf completions
 
-export PNPM_HOME="/home/prantik/.local/share/pnpm" # declare pnpm home-dir
+export PNPM_HOME="$HOME/.local/share/pnpm" # declare pnpm home-dir
 case ":$PATH:" in
--  *":$PNPM_HOME:"*) ;;
--  *) export PATH="$PNPM_HOME:$PATH" ;;
--esac # add pnpm to path
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac # add pnpm to path

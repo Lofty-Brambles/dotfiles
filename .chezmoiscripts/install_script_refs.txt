@@ -1,0 +1,11 @@
+- packages that act as deps
+- curl
+- fzf (fzf-git) (config)
+- eza
+- asdf (npm, ruby, py)
+- pnpm
+- haskell, rust
+
+- fix z not accepting newer dirs when used with fzf
+- add a new keybind to complete **tab for fzf like shift+tab
+- add these installation scripts

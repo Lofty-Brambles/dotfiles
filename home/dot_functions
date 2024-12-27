@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+
+# --- ** Common naming norms (sanity check) ** ---
+# - *    indicates interactivity
+# - !    indicates forced flags or destructive actions
+# - _    indicates a private item
+
+_g_complete () {
+  while [[ "$#" != 0 ]]; do
+    local al="$1"; shift
+    __git_complete "$al" "$1"; shift
+  done
+}
+
+gcl () {
+	command git clone --recurse-submodules "$@"
+	if [[ -d "$_" ]]; then
+    local link="${_:t}"
+    cd "$_" || cd "${link%.git}" || exit
+  fi
+}
+
+__git_complete gcl git_clone
+
+gps () {
+	if [[ "$#" != 0 ]] && [[ "$#" != 1 ]]; then
+		git push origin "${*}"
+	else
+    local branch
+		[[ "$#" == 0 ]] && branch=$(git branch --show-current)
+		git push origin "${branch:=$1}"
+	fi
+}
+
+gpl () {
+	if [[ "$#" != 0 ]] && [[ "$#" != 1 ]]; then
+		git pull origin "${*}"
+	else
+		local branch
+		[[ "$#" == 0 ]] && branch=$(git branch --show-current)
+		git pull origin "${branch:=$1}"
+	fi
+}
+
+_g_complete gps git_push gpl git_pull
+
+gr () {
+  git remote -v | head -n 1 | awk -F " " '{print substr($2, 1, length($2)-4)}'
+}
+
+gbsync () {
+  echo "Refreshing local branch list..."
+  git remote update origin --prune &>/dev/null
+
+  echo "Cleaning merged branches"
+  git branch --merged | grep -v 'main$' | xargs git branch -d 2>/dev/null
+  
+  echo "Cleaning gone branches"
+  BRANCHES=$(git branch -v | grep " \[gone\] ")
+
+  if echo "$BRANCHES" | grep -q '^\*'; then
+    GONE=$(echo "$BRANCHES" | grep '^\*' | cut -d " " -f 2)
+    echo "Currently on gone branch $GONE, exiting"
+    exit
+  fi
+
+  for x in $(git branch -v | grep " \[gone\] " | cut -d " " -f 3); do
+    git branch -D "$x"
+  done
+}
+
+gig () {
+  local base="https://www.toptal.com/developers/gitignore/api"
+  if [[ "$#" != 0 ]]; then
+    curl -sL "$base/list"
+  else
+    local IFS=,
+	  curl -sL "$base/$*" -o "$(pwd -P)/.gitignore"
+  fi
+}
+
+_exa_add_git_flag () {
+  if git rev-parse --git-dir > /dev/null 2>&1; then
+    "$@" "--git"
+  else
+    "$@"
+  fi
+}
+
+mc () {
+  mkdir -p "$@"; cd "$@" || exit
+}
+
+swap () {
+  if [[ "$#" != 2 ]]; then
+    echo "Wrong number of args."
+  elif [ -f temp ]; then
+    echo "Can't swap, since temp file already exists."
+  else
+    mv "$1" temp; mv "$2" "$1"; mv temp "$2"
+  fi
+}
+
+z () {
+  local dir
+  dir=$(
+    _z 2>&1 |
+    fzf --height 40% --layout reverse --info inline \
+        --nth 2.. --tac --no-sort --query "$*" \
+        --bind 'enter:become:echo {2..}'
+  ) && cd "$dir" || return
+}
