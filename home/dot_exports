@@ -34,4 +34,3 @@ export FZF_CTRL_T_OPTS="
 
 # Zoxide options to configure fuzzy inter-directory navigation
 export _ZO_ECHO=1;
-export _ZO_FZF_OPTS="--walker-skip ${_FZF_SKIPS}'"

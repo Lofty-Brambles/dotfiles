@@ -20,7 +20,7 @@ alias gca="git commit --amend"
 _g_complete gcv git_commit gca git_commit
 
 alias gt='gaa; _lc=$(fc -nl -0); git commit -m "${_lc#*gt }" #'
-alias gT='gaa; _lc=$(fc -nl -0); git commit -m "${_lc#*gt }"; gps #'
+alias gT='gaa; _lc=$(fc -nl -0); git commit -m "${_lc#*gT }"; gps #'
 
 alias gf="git fetch"
 alias gfa="git fetch --all --prune --jobs=10"
