@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# colorful man pages
+# Clorful man pages
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;32m'
 export LESS_TERMCAP_me=$'\e[0m'
@@ -9,18 +9,29 @@ export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
 
-# Prefer US English and use UTF-8.
+# Prefer US English and use UTF-8
 export LANG="en_US.UTF-8";
 
-# Enable persistent REPL history for `node`.
+# Enable persistent REPL history for `node`
 export NODE_REPL_HISTORY=~/.node_history;
-# Allow 32³ entries; the default is 1000.
+# Allow 32³ entries; the default is 1000
 export NODE_REPL_HISTORY_SIZE="32768";
-# Use sloppy mode by default, matching web browsers.
-export NODE_REPL_MODE="sloppy";
 
-# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
+# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr
 export PYTHONIOENCODING="UTF-8";
 
 # Make VSCode the default editor
 export EDITOR="code --wait";
+
+# Directories to pass to fzf to skip out on
+export _FZF_SKIPS=".git,node_modules,dist-newstyle";
+
+# Fzf shell integration options
+export FZF_CTRL_T_OPTS="
+  --walker-skip ${_FZF_SKIPS}
+  --preview 'batcat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+
+# Zoxide options to configure fuzzy inter-directory navigation
+export _ZO_ECHO=1;
+export _ZO_FZF_OPTS="--walker-skip ${_FZF_SKIPS}'"

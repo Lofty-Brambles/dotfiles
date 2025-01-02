@@ -1,0 +1,17 @@
+- packages that act as deps
+- curl
+- fzf (fzf-git) (config)
+- eza
+- zoxide
+- asdf (node, ruby, py)
+- pnpm
+- haskell, rust
+
+- add a new keybind to complete **tab for fzf like shift+tab
+- add these installation scripts
+- check other chezmoi scripts, specifically ones to move data like email away and sync important repos
+    - [sync ssh keys](https://github.com/felipecrs/dotfiles/blob/master/home/.chezmoiscripts/run_after_40-sync-wsl-ssh-keys.sh.tmpl)
+    - [sync packages]()
+    - [sync repos]()
+    - [sync vsc, vsc exts on client and wsl?](https://github.com/felipecrs/dotfiles/blob/master/home/.chezmoiscripts/run_after_90-install-vscode-extensions.sh.tmpl)
+    - fonts and their management

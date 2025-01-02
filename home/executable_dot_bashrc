@@ -40,9 +40,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# --- ** Load bash details asynchronously ** ---
+# --- ** Load bash details ** ---
 
-export PATH="$HOME/bin:$PATH";
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH";
 
 for file in ~/.{bash_prompt,functions,exports,aliases}; do
 	# shellcheck disable=SC1090
@@ -55,9 +55,7 @@ unset file;
 [ -f "$HOME/.fzf.bash" ] && . "$HOME/.fzf.bash" # Load fzf integration
 
 . "$HOME/.fzf-git.sh" # Fzf git-integration
-. "$HOME/.z.sh" # z integration, combined with fzf
-
-unalias z 2> /dev/null # unalias z integration to use preferred fzf instead
+eval "$(zoxide init bash)" # zoxide for inter-directory navigation
 
 [ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
 
